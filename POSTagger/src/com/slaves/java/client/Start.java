@@ -22,7 +22,7 @@ public class Start extends Composite {
 	
 	public void DisplayPageOne(){
 		this.panel2.clear();
-		PageOne pageone = new PageOne();
+		TaggerUI pageone = new TaggerUI();
 		this.panel2.add(pageone);
 		
 		
