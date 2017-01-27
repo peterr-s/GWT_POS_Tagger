@@ -11,9 +11,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,16 +29,14 @@ public class TaggerUI extends Composite
 
 	private HashSet<String> selectedTags;
 
-	private DockPanel dock = new DockPanel();
-
-	private Label lbl;
-	// private Image img;
-	private Button sendButton;
-
 	public TaggerUI()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 
+		selectedTags = new HashSet<>();
+		// DEBUG: populate tagset to avoid null errors
+		selectedTags.add("NN");
+		
 		submit.addClickHandler(new ButtonClickHandler());
 	}
 
@@ -55,9 +51,12 @@ public class TaggerUI extends Composite
 			{
 				public void onSuccess(String html)
 				{
+					Window.alert("stuff happened");
+					
 					HTML divContent = new HTML(html);
 					RootPanel.get("taggedText").add(divContent);
 					text.setVisible(false);
+					submit.setVisible(false);
 				}
 
 				public void onFailure(Throwable e)

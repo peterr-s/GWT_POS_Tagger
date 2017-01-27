@@ -6,7 +6,14 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-
+	<servlet>
+	    <servlet-name>TaggerServiceServlet</servlet-name>
+	    <servlet-class>com.slaves.java.server.TaggerServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>TaggerServiceServlet</servlet-name>
+	    <url-pattern>/postagger/taggerservice</url-pattern>
+	</servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

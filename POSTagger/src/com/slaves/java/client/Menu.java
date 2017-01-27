@@ -9,9 +9,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public class Menu extends Composite {
 
 	private HorizontalPanel horPanel = new HorizontalPanel();
-	private Start start;
+	private TaggerUI start;
 
-	public Menu( Start start){
+	public Menu( TaggerUI start){
 
 		initWidget(this.horPanel);
 		this.start = start;
@@ -29,7 +29,7 @@ public class Menu extends Composite {
 
 		@Override
 		public void onClick(ClickEvent event) { 
-			start.DisplayPageOne();
+			//start.DisplayPageOne();
 
 		}
 
@@ -39,7 +39,7 @@ public class Menu extends Composite {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			start.DisplayCredits();
+			//start.DisplayCredits();
 
 			//opens the credits
 

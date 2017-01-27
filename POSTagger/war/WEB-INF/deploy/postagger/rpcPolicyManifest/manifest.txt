@@ -1,0 +1,3 @@
+# Module postagger
+# RPC service class, partial path of RPC policy file
+com.slaves.java.client.TaggerService, 82A1646BF1B20FB14BDD615ABBD98E06.gwt.rpc

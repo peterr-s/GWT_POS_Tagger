@@ -1,0 +1,2 @@
+serviceClass: com.slaves.java.client.TaggerService
+path: 82A1646BF1B20FB14BDD615ABBD98E06.gwt.rpc

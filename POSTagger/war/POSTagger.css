@@ -33,3 +33,86 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+div.main {
+	width: 700px;
+}
+
+span.CC {
+	background-color: MidnightBlue
+}
+span.CD {
+	background-color: DarkCyan
+}
+span.DT {
+	background-color: MediumSpringGreen
+}
+span.EX {
+	background-color: Lime
+}
+span.FW {
+	background-color: ForestGreen
+}
+span.IN {
+	background-color: DarkSlateBlue
+}
+span.JJ {
+	background-color: Indigo
+}
+span.JJR {
+	background-color: DarkOliveGreen
+}
+span.JJS {
+	background-color: DimGray
+}
+span.LS {
+	background-color: LawnGreen
+}
+span.MD {
+	background-color: Maroon
+}
+span.NN {
+	background-color: Purple
+}
+span.NNS {
+	background-color: SaddleBrown
+}
+span.NNP {
+	background-color: DarkGoldenRod
+}
+span.NNPS {
+	background-color: RosyBrown
+}
+span.PDT {
+	background-color: DarkKhaki
+}
+span.POS {
+	background-color: IndianRed
+}
+span.PRP {
+	background-color: Chocolate
+}
+span.RB {
+	background-color: Crimson
+}
+span.RBR {
+	background-color: LightCyan
+}
+span.RBS {
+	background-color: Lavender
+}
+span.RP {
+	background-color: DarkSalmon
+}
+span.SYM {
+	background-color: DeepPink
+}
+span.TO {
+	background-color: OrangeRed
+}
+span.UH {
+	background-color: Gold
+}
+span.VB {
+	background-color: PeachPuff
+}

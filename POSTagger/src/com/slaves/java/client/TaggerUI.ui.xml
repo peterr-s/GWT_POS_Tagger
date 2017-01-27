@@ -5,8 +5,7 @@
 	
 	</ui:style>
 	<g:HTMLPanel>
-		<div class="container">
-			<h1>Part of Speech Tagger</h1>
+		<div class="main">
 			<g:TextArea ui:field="text"/>
 			<div id="taggedText"></div>
 			<g:Button ui:field="submit">Tag my text</g:Button>
