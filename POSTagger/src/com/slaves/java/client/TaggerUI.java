@@ -3,6 +3,7 @@ package com.slaves.java.client;
 import java.util.HashSet;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -11,7 +12,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,17 +27,22 @@ public class TaggerUI extends Composite
 
 	@UiField TextArea text;
 	@UiField Button submit;
+	@UiField DivElement taggedTextArea;
+	@UiField DivElement sidebar;
+	@UiField ListBox POSListBox;
 
 	private HashSet<String> selectedTags;
 
 	public TaggerUI()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-
-		selectedTags = new HashSet<>();
-		// DEBUG: populate tagset to avoid null errors
-		selectedTags.add("NN");
 		
+		taggedTextArea.setId("taggedText");
+		sidebar.setId("sidebar");
+		POSListBox.setMultipleSelect(true);
+		
+		selectedTags = new HashSet<>();
+			
 		submit.addClickHandler(new ButtonClickHandler());
 	}
 
@@ -46,17 +52,49 @@ public class TaggerUI extends Composite
 		@Override
 		public void onClick(ClickEvent event)
 		{
+			if(POSListBox.isItemSelected(0))
+			{
+				selectedTags.add("NN");
+				selectedTags.add("NNS");
+				selectedTags.add("NNP");
+				selectedTags.add("NNPS");
+			}
+			if(POSListBox.isItemSelected(1))
+			{
+				selectedTags.add("VB");
+				selectedTags.add("VBD");
+				selectedTags.add("VBG");
+				selectedTags.add("VBN");
+				selectedTags.add("VBP");
+				selectedTags.add("VBZ");
+			}
+			if(POSListBox.isItemSelected(2))
+			{
+				selectedTags.add("JJ");
+				selectedTags.add("JJR");
+				selectedTags.add("JJS");
+			}
+			if(POSListBox.isItemSelected(3))
+			{
+				selectedTags.add("RB");
+				selectedTags.add("RBR");
+				selectedTags.add("RBS");
+			}
+			if(POSListBox.isItemSelected(4))
+				selectedTags.add("IN");
+			if(POSListBox.isItemSelected(5))
+				selectedTags.add("DT");
+			
 			TaggerServiceAsync tagService = GWT.create(TaggerService.class);
 			AsyncCallback<String> callback = new AsyncCallback<String>()
 			{
 				public void onSuccess(String html)
 				{
-					Window.alert("stuff happened");
-					
-					HTML divContent = new HTML(html);
-					RootPanel.get("taggedText").add(divContent);
+					taggedTextArea.setInnerHTML(html);
+
 					text.setVisible(false);
 					submit.setVisible(false);
+					sidebar.addClassName("invisible");
 				}
 
 				public void onFailure(Throwable e)

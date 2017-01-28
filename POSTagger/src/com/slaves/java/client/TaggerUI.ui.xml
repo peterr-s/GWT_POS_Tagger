@@ -6,9 +6,23 @@
 	</ui:style>
 	<g:HTMLPanel>
 		<div class="main">
-			<g:TextArea ui:field="text"/>
-			<div id="taggedText"></div>
-			<g:Button ui:field="submit">Tag my text</g:Button>
+		    <div ui:field="sidebar">
+		        <g:ListBox ui:field="POSListBox">
+		            <g:item>Nouns</g:item>
+		            <g:item>Verbs</g:item>
+		            <g:item>Adjectives</g:item>
+		            <g:item>Adverbs</g:item>
+		            <g:item>Prepositions</g:item>
+		            <g:item>Articles</g:item>
+		        </g:ListBox>
+		    </div>
+		    <div id="textFrame">
+				<g:TextArea ui:field="text"/>
+				<div ui:field="taggedTextArea"></div>
+			</div>
+			<div id="submitButton">
+				<g:Button ui:field="submit">Tag my text</g:Button>
+			</div>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder>
