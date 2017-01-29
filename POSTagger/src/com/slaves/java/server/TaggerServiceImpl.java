@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -24,7 +25,42 @@ import opennlp.tools.tokenize.TokenizerModel;
 @SuppressWarnings("serial")
 public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerService
 {
-
+	public static final HashMap<String, String> tagDescriptions;
+	static
+	{
+		tagDescriptions = new HashMap<>();
+		tagDescriptions.put("CC", "coordinating conjunction");
+		tagDescriptions.put("CD", "cardinal number");
+		tagDescriptions.put("DT", "determiner");
+		tagDescriptions.put("PDT", "predeterminer");
+		tagDescriptions.put("EX", "existential \"there\"");
+		tagDescriptions.put("FW", "foreign word");
+		tagDescriptions.put("IN", "subordinating conjunction");
+		tagDescriptions.put("JJ", "adjective (positive)");
+		tagDescriptions.put("JJR", "adjective (comparative)");
+		tagDescriptions.put("JJS", "adjective (superlative)");
+		tagDescriptions.put("LS", "list item marker");
+		tagDescriptions.put("NN", "noun (singular, common)");
+		tagDescriptions.put("NNS", "noun (plural, common)");
+		tagDescriptions.put("NNP", "noun (singular, proper)");
+		tagDescriptions.put("NNPS", "noun (plural, proper)");
+		tagDescriptions.put("POS", "genitive marker");
+		tagDescriptions.put("RB", "adverb (positive)");
+		tagDescriptions.put("RBR", "adverb (comparative)");
+		tagDescriptions.put("RBS", "adverb (superlative)");
+		tagDescriptions.put("RP", "particle");
+		tagDescriptions.put("SYM", "symbol");
+		tagDescriptions.put("UH", "interjection");
+		tagDescriptions.put("VB", "verb (uninflected)");
+		tagDescriptions.put("VBG", "verb (gerund)");
+		tagDescriptions.put("VBN", "verb (past participle)");
+		tagDescriptions.put("VBP", "verb (not 3rd person sg., present tense)");
+		tagDescriptions.put("VBZ", "verb (3rd person sg., present tense)");
+		tagDescriptions.put("WP", "\"wh-\" pronoun");
+		tagDescriptions.put("WPS", "possessive \"wh-\" pronoun");
+		tagDescriptions.put("WRB", "\"wh-\" adverb");
+	}
+	
 	@Override
 	public String makeHTML(String input, Collection<String> tags)
 	{
@@ -35,17 +71,17 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 			InputStream sentModelIn = new FileInputStream("en_sent.bin");
 			SentenceModel sentModel = new SentenceModel(sentModelIn);
 			SentenceDetector sentenceDetector = new SentenceDetectorME(sentModel);
-			//sentModelIn.close();
+			sentModelIn.close();
 
 			InputStream tokenModelIn = new FileInputStream("en-token.bin");
 			TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
 			Tokenizer tokenizer = new TokenizerME(tokenModel);
-			//tokenModelIn.close();
+			tokenModelIn.close();
 
 			InputStream taggerModelIn = new FileInputStream("en-pos-maxent.bin");
 			POSModel taggerModel = new POSModel(taggerModelIn);
 			POSTagger tagger = new POSTaggerME(taggerModel);
-			//taggerModelIn.close();
+			taggerModelIn.close();
 
 			List<String> paragraphs = Arrays.asList(input.split("\\n+"));
 
@@ -72,11 +108,11 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 				{
 					String thisTag = textTags.get(i);
 					
-					if(i > 0 && !thisTag.equals("SYM"))
+					if(i > 0 && !(!thisTag.matches("[A-Z]+") || thisTag.equals("POS") || thisTag.equals("SYM")))
 						html += " ";
 					
 					if(tags.contains(thisTag))
-						html += "<span class=\"" + thisTag + "\" title=\"" + thisTag + "\">" + tokens.get(i) + "</span>";
+						html += "<span class=\"" + thisTag + "\" title=\"" + tagDescriptions.get(thisTag) + "\">" + tokens.get(i) + "</span>";
 					else
 						html += tokens.get(i);
 				}

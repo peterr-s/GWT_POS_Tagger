@@ -11,8 +11,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,7 +29,23 @@ public class TaggerUI extends Composite
 	@UiField Button returnBtn;
 	@UiField DivElement taggedTextArea;
 	@UiField DivElement sidebar;
-	@UiField ListBox POSListBox;
+	
+	@UiField CheckBox CCCheckBox;
+	@UiField CheckBox CDCheckBox;
+	@UiField CheckBox DTCheckBox;
+	@UiField CheckBox EXCheckBox;
+	@UiField CheckBox FWCheckBox;
+	@UiField CheckBox INCheckBox;
+	@UiField CheckBox JJCheckBox;
+	@UiField CheckBox LSCheckBox;
+	@UiField CheckBox NNCheckBox;
+	@UiField CheckBox POSCheckBox;
+	@UiField CheckBox RBCheckBox;
+	@UiField CheckBox RPCheckBox;
+	@UiField CheckBox SYMCheckBox;
+	@UiField CheckBox UHCheckBox;
+	@UiField CheckBox VBCheckBox;
+	@UiField CheckBox WHCheckBox;
 
 	private HashSet<String> selectedTags;
 
@@ -40,7 +56,6 @@ public class TaggerUI extends Composite
 		taggedTextArea.setId("taggedText");
 		taggedTextArea.addClassName("back");
 		sidebar.setId("sidebar");
-		POSListBox.setMultipleSelect(true);
 		
 		selectedTags = new HashSet<>();
 		
@@ -57,6 +72,8 @@ public class TaggerUI extends Composite
 				submit.setVisible(true);
 				sidebar.removeClassName("invisible");
 				returnBtn.setVisible(false);
+				
+				selectedTags = new HashSet<>();
 			}
 		});
 	}
@@ -67,38 +84,86 @@ public class TaggerUI extends Composite
 		@Override
 		public void onClick(ClickEvent event)
 		{
-			if(POSListBox.isItemSelected(0))
+			if(CCCheckBox.getValue())
+				selectedTags.add("CC");
+
+			if(CDCheckBox.getValue())
+				selectedTags.add("CD");
+
+			if(DTCheckBox.getValue())
 			{
-				selectedTags.add("NN");
-				selectedTags.add("NNS");
-				selectedTags.add("NNP");
-				selectedTags.add("NNPS");
+				selectedTags.add("DT");
+				selectedTags.add("PDT");
+				selectedTags.add("WDT");
 			}
-			if(POSListBox.isItemSelected(1))
-			{
-				selectedTags.add("VB");
-				selectedTags.add("VBD");
-				selectedTags.add("VBG");
-				selectedTags.add("VBN");
-				selectedTags.add("VBP");
-				selectedTags.add("VBZ");
-			}
-			if(POSListBox.isItemSelected(2))
+
+			if(EXCheckBox.getValue())
+				selectedTags.add("EX");
+
+			if(FWCheckBox.getValue())
+				selectedTags.add("FW");
+
+			if(INCheckBox.getValue())
+				selectedTags.add("IN");
+
+			if(JJCheckBox.getValue())
 			{
 				selectedTags.add("JJ");
 				selectedTags.add("JJR");
 				selectedTags.add("JJS");
 			}
-			if(POSListBox.isItemSelected(3))
+
+			if(LSCheckBox.getValue())
+				selectedTags.add("LS");
+
+			if(NNCheckBox.getValue())
+			{
+				selectedTags.add("NN");
+				selectedTags.add("NNS");
+				selectedTags.add("NNP");
+				selectedTags.add("NNPS");
+				selectedTags.add("PRP");
+			}
+
+			if(POSCheckBox.getValue())
+			{
+				selectedTags.add("POS");
+				selectedTags.add("PRPS");
+			}
+
+			if(RBCheckBox.getValue())
 			{
 				selectedTags.add("RB");
 				selectedTags.add("RBR");
 				selectedTags.add("RBS");
 			}
-			if(POSListBox.isItemSelected(4))
-				selectedTags.add("IN");
-			if(POSListBox.isItemSelected(5))
-				selectedTags.add("DT");
+
+			if(RPCheckBox.getValue())
+				selectedTags.add("RP");
+
+			if(SYMCheckBox.getValue())
+				selectedTags.add("SYM");
+
+			if(UHCheckBox.getValue())
+				selectedTags.add("UH");
+
+			if(VBCheckBox.getValue())
+			{
+				selectedTags.add("VB");
+				selectedTags.add("MD");
+				selectedTags.add("VBG");
+				selectedTags.add("VBN");
+				selectedTags.add("VBP");
+				selectedTags.add("VBZ");
+			}
+
+			if(WHCheckBox.getValue())
+			{
+				selectedTags.add("WRB");
+				selectedTags.add("WP");
+				selectedTags.add("WPS");
+			}
+
 			
 			TaggerServiceAsync tagService = GWT.create(TaggerService.class);
 			AsyncCallback<String> callback = new AsyncCallback<String>()

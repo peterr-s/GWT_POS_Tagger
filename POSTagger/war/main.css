@@ -69,6 +69,10 @@ div.main {
 	padding: 0px !important;
 }
 
+textarea {
+	resize: none;
+}
+
 .invisible {
 	display: none;
 }
@@ -149,7 +153,7 @@ span.CC {
 span.CD {
 	color: DarkCyan
 }
-span.DT {
+span.DT, span.PDT, span.WDT {
 	color: MediumSpringGreen
 }
 span.EX {
@@ -161,50 +165,23 @@ span.FW {
 span.IN {
 	color: DarkSlateBlue
 }
-span.JJ {
+span.JJ, span.JJR, span.JJS {
 	color: Indigo
-}
-span.JJR {
-	color: DarkOliveGreen
-}
-span.JJS {
-	color: DimGray
 }
 span.LS {
 	color: LawnGreen
 }
-span.MD {
-	color: Maroon
-}
-span.NN {
+span.NN, span.NNS, span.NNP, span.NNPS, span.PRP {
 	color: Purple
-}
-span.NNS {
-	color: SaddleBrown
-}
-span.NNP {
-	color: DarkGoldenRod
-}
-span.NNPS {
-	color: RosyBrown
 }
 span.PDT {
 	color: DarkKhaki
 }
-span.POS {
+span.POS, span.PRPS {
 	color: IndianRed
 }
-span.PRP {
-	color: Chocolate
-}
-span.RB {
+span.RB, span.RBR, span.RBS {
 	color: Crimson
-}
-span.RBR {
-	color: LightCyan
-}
-span.RBS {
-	color: Lavender
 }
 span.RP {
 	color: DarkSalmon
@@ -218,6 +195,13 @@ span.TO {
 span.UH {
 	color: Gold
 }
-span.VB {
+span.VB, span.MD, span.VBG, span.VBN, span.VBP, span.VBZ {
 	color: PeachPuff
+}
+span.WRB, span.WP, span.WPS {
+	color: DarkOliveGreen
+}
+
+label {
+	font-weight: normal;
 }
