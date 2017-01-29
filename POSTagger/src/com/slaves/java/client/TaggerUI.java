@@ -13,7 +13,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,6 +26,7 @@ public class TaggerUI extends Composite
 
 	@UiField TextArea text;
 	@UiField Button submit;
+	@UiField Button returnBtn;
 	@UiField DivElement taggedTextArea;
 	@UiField DivElement sidebar;
 	@UiField ListBox POSListBox;
@@ -38,12 +38,27 @@ public class TaggerUI extends Composite
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		taggedTextArea.setId("taggedText");
+		taggedTextArea.addClassName("back");
 		sidebar.setId("sidebar");
 		POSListBox.setMultipleSelect(true);
 		
 		selectedTags = new HashSet<>();
-			
+		
 		submit.addClickHandler(new ButtonClickHandler());
+		
+		returnBtn.setVisible(false);
+		returnBtn.addClickHandler(new ButtonClickHandler(){
+			public void onClick(ClickEvent e)
+			{
+				taggedTextArea.setInnerHTML("");
+				taggedTextArea.removeClassName("from");
+				taggedTextArea.addClassName("back");
+				text.setVisible(true);
+				submit.setVisible(true);
+				sidebar.removeClassName("invisible");
+				returnBtn.setVisible(false);
+			}
+		});
 	}
 
 	private class ButtonClickHandler implements ClickHandler
@@ -91,10 +106,13 @@ public class TaggerUI extends Composite
 				public void onSuccess(String html)
 				{
 					taggedTextArea.setInnerHTML(html);
+					taggedTextArea.removeClassName("back");
+					taggedTextArea.addClassName("front");
 
 					text.setVisible(false);
 					submit.setVisible(false);
 					sidebar.addClassName("invisible");
+					returnBtn.setVisible(true);
 				}
 
 				public void onFailure(Throwable e)

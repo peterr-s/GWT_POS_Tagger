@@ -76,7 +76,7 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 						html += " ";
 					
 					if(tags.contains(thisTag))
-						html += "<span class=\"" + thisTag + "\">" + tokens.get(i) + "</span>";
+						html += "<span class=\"" + thisTag + "\" title=\"" + thisTag + "\">" + tokens.get(i) + "</span>";
 					else
 						html += tokens.get(i);
 				}

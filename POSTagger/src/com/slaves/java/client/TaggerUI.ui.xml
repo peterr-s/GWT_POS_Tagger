@@ -18,10 +18,11 @@
 		    </div>
 		    <div id="textFrame">
 				<g:TextArea ui:field="text"/>
-				<div ui:field="taggedTextArea"></div>
 			</div>
+			<div ui:field="taggedTextArea"></div>
 			<div id="submitButton">
 				<g:Button ui:field="submit">Tag my text</g:Button>
+				<g:Button ui:field="returnBtn">Back to text entry</g:Button>
 			</div>
 		</div>
 	</g:HTMLPanel>
