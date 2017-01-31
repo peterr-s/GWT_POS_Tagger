@@ -56,11 +56,11 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 		tagDescriptions.put("VBN", "verb (past participle)");
 		tagDescriptions.put("VBP", "verb (not 3rd person sg., present tense)");
 		tagDescriptions.put("VBZ", "verb (3rd person sg., present tense)");
-		tagDescriptions.put("WP", "\"wh-\" pronoun");
-		tagDescriptions.put("WPS", "possessive \"wh-\" pronoun");
-		tagDescriptions.put("WRB", "\"wh-\" adverb");
+		tagDescriptions.put("WP", "&quot;wh-&quot; pronoun");
+		tagDescriptions.put("WPS", "possessive &quot;wh-&quot; pronoun");
+		tagDescriptions.put("WRB", "&quot;wh-&quot; adverb");
 	}
-	
+
 	@Override
 	public String makeHTML(String input, Collection<String> tags)
 	{
@@ -107,12 +107,12 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 				for(int i = 0; i < tokens.size(); i ++)
 				{
 					String thisTag = textTags.get(i);
-					
+
 					if(i > 0 && !(!thisTag.matches("[A-Z]+") || thisTag.equals("POS") || thisTag.equals("SYM")))
 						html += " ";
-					
+
 					if(tags.contains(thisTag))
-						html += "<span class=\"" + thisTag + "\" title=\"" + tagDescriptions.get(thisTag) + "\">" + tokens.get(i) + "</span>";
+						html += "<span class=\"" + thisTag.replaceAll("\\$", "S") + "\" title=\"" + tagDescriptions.get(thisTag) + "\">" + tokens.get(i) + "</span>";
 					else
 						html += tokens.get(i);
 				}

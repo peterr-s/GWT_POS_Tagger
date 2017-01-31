@@ -13,6 +13,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -27,9 +28,11 @@ public class TaggerUI extends Composite
 	@UiField TextArea text;
 	@UiField Button submit;
 	@UiField Button returnBtn;
+	@UiField Button helpBtn;
 	@UiField DivElement taggedTextArea;
 	@UiField DivElement sidebar;
-	
+
+	@UiField CheckBox everything;
 	@UiField CheckBox CCCheckBox;
 	@UiField CheckBox CDCheckBox;
 	@UiField CheckBox DTCheckBox;
@@ -52,17 +55,42 @@ public class TaggerUI extends Composite
 	public TaggerUI()
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		taggedTextArea.setId("taggedText");
 		taggedTextArea.addClassName("back");
 		sidebar.setId("sidebar");
-		
+
 		selectedTags = new HashSet<>();
-		
+
 		submit.addClickHandler(new ButtonClickHandler());
-		
+
+		everything.addClickHandler(new ClickHandler()
+		{
+			public void onClick(ClickEvent e)
+			{
+				boolean isSelected = everything.getValue();
+				CCCheckBox.setValue(isSelected);
+				CDCheckBox.setValue(isSelected);
+				DTCheckBox.setValue(isSelected);
+				EXCheckBox.setValue(isSelected);
+				FWCheckBox.setValue(isSelected);
+				INCheckBox.setValue(isSelected);
+				JJCheckBox.setValue(isSelected);
+				LSCheckBox.setValue(isSelected);
+				NNCheckBox.setValue(isSelected);
+				POSCheckBox.setValue(isSelected);
+				RBCheckBox.setValue(isSelected);
+				RPCheckBox.setValue(isSelected);
+				SYMCheckBox.setValue(isSelected);
+				UHCheckBox.setValue(isSelected);
+				VBCheckBox.setValue(isSelected);
+				WHCheckBox.setValue(isSelected);
+			}
+		});
+
 		returnBtn.setVisible(false);
-		returnBtn.addClickHandler(new ButtonClickHandler(){
+		returnBtn.addClickHandler(new ButtonClickHandler()
+		{
 			public void onClick(ClickEvent e)
 			{
 				taggedTextArea.setInnerHTML("");
@@ -72,8 +100,17 @@ public class TaggerUI extends Composite
 				submit.setVisible(true);
 				sidebar.removeClassName("invisible");
 				returnBtn.setVisible(false);
-				
+
 				selectedTags = new HashSet<>();
+			}
+		});
+
+		helpBtn.addClickHandler(new ButtonClickHandler()
+		{
+			public void onClick(ClickEvent e)
+			{
+				RootPanel.get().clear();
+				RootPanel.get().add(new InfoPage());
 			}
 		});
 	}
@@ -164,7 +201,6 @@ public class TaggerUI extends Composite
 				selectedTags.add("WPS");
 			}
 
-			
 			TaggerServiceAsync tagService = GWT.create(TaggerService.class);
 			AsyncCallback<String> callback = new AsyncCallback<String>()
 			{
@@ -185,7 +221,13 @@ public class TaggerUI extends Composite
 					Window.alert("sth happened, sry bud\n" + e.getMessage());
 				}
 			};
-			tagService.makeHTML(text.getText(), selectedTags, callback);
+
+			String enteredText = text.getText();
+
+			if(enteredText.split("\\s+").length > 30000 && !Window.confirm("tl; dr\ndude are you sure you want to make me read all that?"))
+				return;
+
+			tagService.makeHTML(enteredText, selectedTags, callback);
 		}
 	}
 }

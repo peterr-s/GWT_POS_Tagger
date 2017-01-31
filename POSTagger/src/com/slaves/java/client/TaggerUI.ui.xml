@@ -7,6 +7,7 @@
 	<g:HTMLPanel>
 		<div class="main">
 		    <div ui:field="sidebar">
+		        <g:CheckBox ui:field="everything"><strong class="redBold">ALL</strong></g:CheckBox><br/>
 		        <g:CheckBox ui:field="CCCheckBox">conjunctions</g:CheckBox><br/>
 		        <g:CheckBox ui:field="CDCheckBox">cardinals</g:CheckBox><br/>
 		        <g:CheckBox ui:field="DTCheckBox">determiners</g:CheckBox><br/>
@@ -28,9 +29,12 @@
 				<g:TextArea ui:field="text"/>
 			</div>
 			<div ui:field="taggedTextArea"></div>
+			<div id="helpButton">
+			    <g:Button ui:field="helpBtn">Help/Credits</g:Button>
+			</div>
 			<div id="submitButton">
 				<g:Button ui:field="submit">Tag my text</g:Button>
-				<g:Button ui:field="returnBtn">Back to text entry</g:Button>
+				   <g:Button ui:field="returnBtn">Back to text entry</g:Button>
 			</div>
 		</div>
 	</g:HTMLPanel>

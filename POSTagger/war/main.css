@@ -1,8 +1,4 @@
-/** Add css rules here for your application. */
-
-
-/** Example rules used by the template application (remove for your app) */
-
+/* style for the "Part of Speech Tagger" header */
 h1 {
   font-size: 2em;
   font-weight: bold;
@@ -12,47 +8,28 @@ h1 {
   max-height: 10%;
 }
 
-.sendButton {
-  display: block;
-  font-size: 16pt;
-}
-
-/** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-  width: 400px;
-}
-
-.dialogVPanel {
-  margin: 5px;
-}
-
-.serverResponseLabelError {
-  color: red;
-}
-
-/** Set ids using widget.getElement().setId("idOfElement") */
-#closeButton {
-  margin: 15px 6px 6px;
-}
-
+/* this makes the items spread out across the page (buttons at the bottom) */
 html, body {
 	height: 100%;
 	margin: 0;
 }
 
 body {
+	/* more styling for stuff to float to the bottom */
 	display: flex;
 	flex-flow: column;
-	margin: 0 !important;
+	margin: 0 !important; /* needs to override clean.css */
+	
+	background: #EEEEEE !important; /* white background was too boring */
 }
 
 div {
-	/*flex: 1, 1, auto;*/
-	height: 90%;
+	height: 90%; /* keeps things from overflowing unless otherwise explicitly made ok */
 	margin: 0;
-	text-align: justify;
+	text-align: justify; /* everything but the header is in a div */
 }
 
+/* 700px is a manageable size, and this centers that area on the screen */
 div.main {
 	width: 700px;
 	position: relative;
@@ -60,33 +37,32 @@ div.main {
 	height: 100%;
 }
 
-.gwt-ListBox {
-	height: 100%;
-	width: 100%;
-}
-
+/* because otherwise alignment with buttons was weird */
 .gwt-TextArea {
 	padding: 0px !important;
 }
 
+/* so that the user can't resize the text area */
 textarea {
 	resize: none;
 }
 
+/* this is because GWT's Widget.setVisible(false) doesn't always do what you want it to */
 .invisible {
 	display: none;
 }
 
+/* without these the invisible text entry field blocks the text display field, affecting hovertext and highlighting */
 .front {
 	position: absolute;
 	z-index: 1;
 }
-
 .back {
 	position: absolute;
 	z-index: -1;
 }
 
+/* apparently GWT does what it wants with the sizing, but these keep the buttons in their corners */
 #submitButton {
 	position: absolute;
 	height: 3%;
@@ -96,53 +72,75 @@ textarea {
 	right: 0;
 	bottom: 0;
 }
+#helpButton {
+	position: absolute;
+	right: 10;
+	bottom: 0;
+	width: 80px;
+	height: 3%;
+}
 
+/* for the "ALL" tag option */
+strong.redBold {
+	color: brown; /* it's like red but dried */
+}
+
+/* because the button is the element inside the submitButton div */
+#submitButton > * {
+	color: red;
+/*	background: purple;*/ /* FINE THEN */
+}
+
+/* holds the text entry field in place */
 #textFrame {
 	position: absolute;
-	/*flex: 1, 1, auto;*/
 	width: 78%;
 	left: 0;
 	top: 0;
 	bottom: 0;
 }
 
+/* holds the tagged text in place */
 #taggedText {
 	width: 700px;
 	height: 90%;
-	/*padding: 10px;*/
-	overflow-y: auto;
+	overflow-y: auto; /* makes it scrollable */
 	position: relative;
 }
 
+/* area with all the checkboxes */
 #sidebar {
 	position: absolute;
-	/*flex: 1, 1, auto;*/
 	width: 20%;
 	right: 0;
 	top: 0;
 	bottom: 0;
 }
 
+/* hold the text area to its container */
 textarea {
 	width: 100%;
 	height: 100%;
 }
 
+/* tether buttons to the bottom of their containers */
 button {
 	position: absolute;
 	bottom: 0;
 }
 
+/* maybe it's this that creates the scroll bar? */
 div.taggedText {
 	display: none;
-	overflow-y: auto;
+	overflow-y: auto; /* PLEASE IT WORKS NOW JUST DON'T TOUCH IT */
 }
 
 p {
-	text-align: inherit;
-	margin: 0px 10px;
+	text-align: inherit; /* justify, inherited from div */
+	margin: 0px 10px; /* else it looks weird in the scroll pane */
 }
 
+/* make similar tags the same color (same grouping as in the checkboxes) */
 span {
 	font-weight: bold;
 	text-align: inherit;
@@ -202,6 +200,7 @@ span.WRB, span.WP, span.WPS {
 	color: DarkOliveGreen
 }
 
+/* because span formatting makes them ugly otherwise */
 label {
 	font-weight: normal;
 }
