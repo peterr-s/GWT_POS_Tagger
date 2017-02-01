@@ -193,7 +193,7 @@ span.TO {
 span.UH {
 	color: Gold
 }
-span.VB, span.MD, span.VBG, span.VBN, span.VBP, span.VBZ {
+span.VB, span.VBD, span.MD, span.VBG, span.VBN, span.VBP, span.VBZ {
 	color: DarkGoldenRod 
 }
 span.WRB, span.WP, span.WPS {

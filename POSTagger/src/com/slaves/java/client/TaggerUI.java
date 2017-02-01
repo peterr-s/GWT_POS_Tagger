@@ -188,6 +188,7 @@ public class TaggerUI extends Composite
 			{
 				selectedTags.add("VB");
 				selectedTags.add("MD");
+				selectedTags.add("VBD");
 				selectedTags.add("VBG");
 				selectedTags.add("VBN");
 				selectedTags.add("VBP");

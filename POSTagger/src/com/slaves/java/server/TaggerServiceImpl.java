@@ -45,6 +45,7 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 		tagDescriptions.put("NNP", "noun (singular, proper)");
 		tagDescriptions.put("NNPS", "noun (plural, proper)");
 		tagDescriptions.put("POS", "genitive marker");
+		tagDescriptions.put("PRP", "preposition");
 		tagDescriptions.put("RB", "adverb (positive)");
 		tagDescriptions.put("RBR", "adverb (comparative)");
 		tagDescriptions.put("RBS", "adverb (superlative)");
@@ -52,6 +53,7 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 		tagDescriptions.put("SYM", "symbol");
 		tagDescriptions.put("UH", "interjection");
 		tagDescriptions.put("VB", "verb (uninflected)");
+		tagDescriptions.put("VBD", "verb (past tense)");
 		tagDescriptions.put("VBG", "verb (gerund)");
 		tagDescriptions.put("VBN", "verb (past participle)");
 		tagDescriptions.put("VBP", "verb (not 3rd person sg., present tense)");
