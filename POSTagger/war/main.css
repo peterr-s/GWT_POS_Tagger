@@ -1,26 +1,31 @@
 /* style for the "Part of Speech Tagger" header */
 h1 {
-  font-size: 2em;
+  font-size: 3em;
   font-weight: bold;
-  color: #777777;
-  /*margin: 40px 0px 70px;*/
+
   text-align: center;
   max-height: 10%;
+  background: #BF1B26;
+  color: white
 }
 
 /* this makes the items spread out across the page (buttons at the bottom) */
 html, body {
+	overflow: hidden;
 	height: 100%;
 	margin: 0;
+	
 }
 
 body {
+
+	
 	/* more styling for stuff to float to the bottom */
 	display: flex;
 	flex-flow: column;
 	margin: 0 !important; /* needs to override clean.css */
 	
-	background: #EEEEEE !important; /* white background was too boring */
+	background: white !important; /* white background was too boring */
 }
 
 div {
@@ -28,6 +33,18 @@ div {
 	margin: 0;
 	text-align: justify; /* everything but the header is in a div */
 }
+div.super {
+	padding: 15px;
+	width: 750;
+	background-color: #BF1B26;
+}
+
+div.left {
+	position: absolute;
+	left: 0;
+	
+}
+
 
 /* 700px is a manageable size, and this centers that area on the screen */
 div.main {
@@ -35,16 +52,19 @@ div.main {
 	position: relative;
 	margin: 0 auto;
 	height: 100%;
+	
 }
 
 /* because otherwise alignment with buttons was weird */
 .gwt-TextArea {
 	padding: 0px !important;
+	background: white;
 }
 
 /* so that the user can't resize the text area */
 textarea {
 	resize: none;
+	
 }
 
 /* this is because GWT's Widget.setVisible(false) doesn't always do what you want it to */
@@ -60,6 +80,7 @@ textarea {
 .back {
 	position: absolute;
 	z-index: -1;
+	
 }
 
 /* apparently GWT does what it wants with the sizing, but these keep the buttons in their corners */
@@ -71,6 +92,7 @@ textarea {
 	padding: 0;
 	right: 0;
 	bottom: 0;
+	
 }
 #helpButton {
 	position: absolute;
@@ -78,17 +100,58 @@ textarea {
 	bottom: 0;
 	width: 80px;
 	height: 3%;
+	
 }
 
 /* for the "ALL" tag option */
 strong.redBold {
-	color: brown; /* it's like red but dried */
+	color: white; /* it's like red but dried */
 }
 
 /* because the button is the element inside the submitButton div */
 #submitButton > * {
-	color: red;
-/*	background: purple;*/ /* FINE THEN */
+/*display: inline-block;*/
+  font-size: 17px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+  
+  right: 0;
+}
+#button:hover {background-color: red}
+
+#button:active {
+  background-color: white;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+/*display: inline-block;*/
+#helpButton > * { 
+  font-size: 17px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: white;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+#button:hover {background-color: red}
+
+#button:active {
+  background-color: white;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 
 /* holds the text entry field in place */
@@ -106,6 +169,7 @@ strong.redBold {
 	height: 90%;
 	overflow-y: auto; /* makes it scrollable */
 	position: relative;
+	background: white;
 }
 
 /* area with all the checkboxes */
@@ -128,6 +192,7 @@ button {
 	position: absolute;
 	bottom: 0;
 }
+
 
 /* maybe it's this that creates the scroll bar? */
 div.taggedText {

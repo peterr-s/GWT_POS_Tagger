@@ -2,7 +2,8 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<g:HTMLPanel>
-	    <div class="main" style="background:#EEEEEE; color:#112233;"> 
+	    <div class="super">
+	    <div class="main" style="background:#EEEEEE; color: black;"> 
 		    <h2><strong><u>Instructions</u></strong></h2>
 		    <ol>
 		        <li>
@@ -31,7 +32,10 @@
 		    <br/>
 		    <hr/>
 		    <br/>
-		    <g:Button ui:field="back">back to text entry</g:Button>
+		    <div id="submitButton">
+		    <g:Button ui:field="back">back</g:Button>
+		    </div>
+		</div>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 
