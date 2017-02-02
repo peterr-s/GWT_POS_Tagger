@@ -101,14 +101,6 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 	@Override
 	public String makeHTML(String input, Collection<String> tags)
 	{
-		/*
-		 * if(!loaded)
-		 * System.err.println("loading...");
-		 * while (!loaded)
-		 * ;
-		 * System.err.println("loaded");
-		 */
-
 		String html = ""; // for holding generated html
 
 		try
