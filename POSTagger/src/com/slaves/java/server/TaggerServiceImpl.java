@@ -1,14 +1,15 @@
 package com.slaves.java.server;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.slaves.java.client.TaggerService;
 
@@ -25,6 +26,7 @@ import opennlp.tools.tokenize.TokenizerModel;
 @SuppressWarnings("serial")
 public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerService
 {
+	// a map from tags to their human readable descriptions (for hover text)
 	public static final HashMap<String, String> tagDescriptions;
 	static
 	{
@@ -63,73 +65,129 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 		tagDescriptions.put("WRB", "&quot;wh-&quot; adverb");
 	}
 
+	// a Bloom filter for basic dictionary checking
+	public static final BloomFilter<String> dictionary;
+	static
+	{
+		dictionary = new BloomFilter<>();
+		try
+		{
+			// read from the SCOWL word list
+			BufferedReader dReader = new BufferedReader(new InputStreamReader(new FileInputStream(new File("wordlist.txt"))));
+			String nLine;
+			while ((nLine = dReader.readLine()) != null)
+				dictionary.add(nLine);
+			dReader.close();
+		}
+		catch (Exception e)
+		{
+			System.err.println("Error reading dictionary: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * makes HTML from the given input, with the given tags highlighted
+	 * 
+	 * tags must be from the Penn Treebank
+	 * 
+	 * the output HTML will not be a valid document, but a concatenation of <p> tags for embedding in another element
+	 * tagged tokens will be represented as <span> elements with classes according to their tags and hovertext according to the description map and their presence in the dictionary
+	 * 
+	 * @param input - the text to tag
+	 * @param tags - the tags to mark
+	 * @return a block of HTML containing as many <p> tags as there were paragraphs in the input
+	 */
 	@Override
 	public String makeHTML(String input, Collection<String> tags)
 	{
-		String html = "";
+		/*
+		 * if(!loaded)
+		 * System.err.println("loading...");
+		 * while (!loaded)
+		 * ;
+		 * System.err.println("loaded");
+		 */
+
+		String html = ""; // for holding generated html
 
 		try
 		{
+			// load the sentence splitter model
 			InputStream sentModelIn = new FileInputStream("en_sent.bin");
 			SentenceModel sentModel = new SentenceModel(sentModelIn);
 			SentenceDetector sentenceDetector = new SentenceDetectorME(sentModel);
 			sentModelIn.close();
 
+			// load the tokenizer model
 			InputStream tokenModelIn = new FileInputStream("en-token.bin");
 			TokenizerModel tokenModel = new TokenizerModel(tokenModelIn);
 			Tokenizer tokenizer = new TokenizerME(tokenModel);
 			tokenModelIn.close();
 
+			// load the POS tagger model
 			InputStream taggerModelIn = new FileInputStream("en-pos-maxent.bin");
 			POSModel taggerModel = new POSModel(taggerModelIn);
 			POSTagger tagger = new POSTaggerME(taggerModel);
 			taggerModelIn.close();
 
+			// split by paragraphs (newlines) to determine where the <p> tags should be
 			List<String> paragraphs = Arrays.asList(input.split("\\n+"));
 
+			// for each paragraph
 			for(String paragraph : paragraphs)
 			{
-				html += "<p>";
+				html += "<p>"; // start the <p> if necessary
 
+				// for storing tokens and tags (nth element of one should correspond to nth element of the other)
 				ArrayList<String> tokens = new ArrayList<>(),
 						textTags = new ArrayList<>();
 
+				// split by sentences
 				List<String> sentences = Arrays.asList(sentenceDetector.sentDetect(paragraph));
-				for(String sentence : sentences)
+				for(String sentence : sentences) // for each sentence
 				{
-					String[] sentenceTokens = tokenizer.tokenize(sentence);
-					String[] sentenceTags = tagger.tag(sentenceTokens);
-					tokens.addAll(Arrays.asList(sentenceTokens));
-					textTags.addAll(Arrays.asList(sentenceTags));
+					String[] sentenceTokens = tokenizer.tokenize(sentence); // tokenize
+					String[] sentenceTags = tagger.tag(sentenceTokens); // tag
+					tokens.addAll(Arrays.asList(sentenceTokens)); // turn the tokens into an ArrayList for easier manipulation later
+					textTags.addAll(Arrays.asList(sentenceTags)); // same for the tags
 				}
 
+				// if there's a size mismatch something went wrong
 				if(tokens.size() != textTags.size())
 					throw new Exception();
 
+				// for each token
 				for(int i = 0; i < tokens.size(); i ++)
 				{
-					String thisTag = textTags.get(i);
+					String thisTag = textTags.get(i); // get the corresponding tag
 
+					// don't put a preceding space if it's punctuation or an "'s" or something of the sort
 					if(i > 0 && !(!thisTag.matches("[A-Z]+") || thisTag.equals("POS") || thisTag.equals("SYM")))
 						html += " ";
 
-					if(tags.contains(thisTag))
-						html += "<span class=\"" + thisTag.replaceAll("\\$", "S") + "\" title=\"" + tagDescriptions.get(thisTag) + "\">" + tokens.get(i) + "</span>";
+					String thisToken = tokens.get(i);
+					boolean real = dictionary.contains(thisToken.toUpperCase());
+					if(!real) // if this token isn't in the dictionary, mark it
+						html += "<span class=\"notreal\">";
+					if(tags.contains(thisTag)) // if this is one of the parts we're looking for, wrap it in a span
+						html += "<span class=\"" + thisTag.replaceAll("\\$", "S") + "\" title=\"" + tagDescriptions.get(thisTag) + (real ? "" : " (not in dictionary!)") + "\">" + thisToken + "</span>";
 					else
-						html += tokens.get(i);
+						html += thisToken;
+					if(!real)
+						html += "</span>"; // close the <span>
 				}
 
-				html += "</p>";
+				html += "</p>"; // close the <p> if necessary
 			}
 
 		}
 		catch (Exception e)
 		{
-			File binFile = new File("en-sent.bin");
-			return "Alon wanted to print a stack trace, but Daniel and Peter weren't that mean. You can thank them. " + e.getMessage() + " " + binFile.getAbsolutePath();
+			e.printStackTrace();
+			return "Something went wrong while tagging your text: " + e.getMessage();
 		}
 
 		return html;
 	}
-
 }
