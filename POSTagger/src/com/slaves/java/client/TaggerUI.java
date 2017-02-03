@@ -56,6 +56,7 @@ public class TaggerUI extends Composite
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 
+		// set ids/classes so that CSS takes effect
 		taggedTextArea.setId("taggedText");
 		taggedTextArea.addClassName("back");
 		sidebar.setId("sidebar");
@@ -64,6 +65,7 @@ public class TaggerUI extends Composite
 
 		submit.addClickHandler(new ButtonClickHandler());
 
+		// when the "everything" checkbox is toggled, set everything to the same value
 		everything.addClickHandler(new ClickHandler()
 		{
 			public void onClick(ClickEvent e)
@@ -88,39 +90,50 @@ public class TaggerUI extends Composite
 			}
 		});
 
+		// the handler for the "return to text entry" button
 		returnBtn.setVisible(false);
 		returnBtn.addClickHandler(new ButtonClickHandler()
 		{
 			public void onClick(ClickEvent e)
 			{
+				// reset the area with the tagged text and send it to the back
 				taggedTextArea.setInnerHTML("");
-				taggedTextArea.removeClassName("from");
+				taggedTextArea.removeClassName("front");
 				taggedTextArea.addClassName("back");
+				
+				// make the text entry box visible again
 				text.setVisible(true);
 				submit.setVisible(true);
 				sidebar.removeClassName("invisible");
+				
+				// reset this button's visibility and the selected tagset
 				returnBtn.setVisible(false);
-
 				selectedTags = new HashSet<>();
 			}
 		});
 
+		// handler for the "info" button
 		helpBtn.addClickHandler(new ButtonClickHandler()
 		{
 			public void onClick(ClickEvent e)
 			{
+				// just changes to the info page
 				RootPanel.get().clear();
 				RootPanel.get().add(new InfoPage());
 			}
 		});
 	}
 
+	/**
+	 * handler for the "tag" button
+	 */
 	private class ButtonClickHandler implements ClickHandler
 	{
 
 		@Override
 		public void onClick(ClickEvent event)
 		{
+			// add the tags for the selected checkboxes
 			if(CCCheckBox.getValue())
 				selectedTags.add("CC");
 
@@ -205,32 +218,39 @@ public class TaggerUI extends Composite
 				selectedTags.add("WPS");
 			}
 
+			// prepare RPC object
 			TaggerServiceAsync tagService = GWT.create(TaggerService.class);
 			AsyncCallback<String> callback = new AsyncCallback<String>()
 			{
 				public void onSuccess(String html)
 				{
+					// make the tagged text <div> visible and put the generated html in it
 					taggedTextArea.setInnerHTML(html);
 					taggedTextArea.removeClassName("back");
 					taggedTextArea.addClassName("front");
 
+					// make the text entry field, checkboxes, and submit button invisible
 					text.setVisible(false);
 					submit.setVisible(false);
 					sidebar.addClassName("invisible");
-					returnBtn.setVisible(true);
+					returnBtn.setVisible(true); // make the return button visible
 				}
 
 				public void onFailure(Throwable e)
 				{
+					// display an error message but don't bombard the user with technical details since that wouldn't help anyway
 					Window.alert("sth happened, sry bud\n" + e.getMessage());
 				}
 			};
 
+			// grab text from the text box
 			String enteredText = text.getText();
 
+			// if there's a lot, show a confirmation dialog (because of lag)
 			if(enteredText.split("\\s+").length > 30000 && !Window.confirm("tl; dr\ndude are you sure you want to make me read all that?"))
 				return;
 
+			// trigger the RPC
 			tagService.makeHTML(enteredText, selectedTags, callback);
 		}
 	}
