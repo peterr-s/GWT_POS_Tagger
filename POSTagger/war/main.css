@@ -173,7 +173,7 @@ strong.redBold {
 	height: 90%;
 	overflow-y: auto; /* makes it scrollable */
 	position: relative;
-	background: white;
+	background: #EEEEEE;
 }
 
 /* area with all the checkboxes */
@@ -269,7 +269,8 @@ span.WRB, span.WP, span.WPS {
 	color: DarkOliveGreen
 }
 span.notreal {
-	color: black !important; /* if the word wasn't in the dictionary, don't color it (but still bold it) */
+	font-weight: inherit; /* bold iff tagged */
+	color: black; /* definitely black though */
 }
 
 /* because span formatting makes them ugly otherwise */

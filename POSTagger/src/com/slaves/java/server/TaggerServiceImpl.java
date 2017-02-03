@@ -37,7 +37,8 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 		tagDescriptions.put("PDT", "predeterminer");
 		tagDescriptions.put("EX", "existential \"there\"");
 		tagDescriptions.put("FW", "foreign word");
-		tagDescriptions.put("IN", "subordinating conjunction");
+		tagDescriptions.put("IN", "preposition/subordinating conjunction");
+		tagDescriptions.put("TO", "preposition");
 		tagDescriptions.put("JJ", "adjective (positive)");
 		tagDescriptions.put("JJR", "adjective (comparative)");
 		tagDescriptions.put("JJS", "adjective (superlative)");
@@ -47,7 +48,8 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 		tagDescriptions.put("NNP", "noun (singular, proper)");
 		tagDescriptions.put("NNPS", "noun (plural, proper)");
 		tagDescriptions.put("POS", "genitive marker");
-		tagDescriptions.put("PRP", "preposition");
+		tagDescriptions.put("PRP", "personal pronoun");
+		tagDescriptions.put("PRPS", "possessive pronoun");
 		tagDescriptions.put("RB", "adverb (positive)");
 		tagDescriptions.put("RBR", "adverb (comparative)");
 		tagDescriptions.put("RBS", "adverb (superlative)");
@@ -159,15 +161,17 @@ public class TaggerServiceImpl extends RemoteServiceServlet implements TaggerSer
 						html += " ";
 
 					String thisToken = tokens.get(i);
-					boolean real = dictionary.contains(thisToken.toUpperCase());
-					if(!real) // if this token isn't in the dictionary, mark it
+					boolean real = dictionary.contains(thisToken.toUpperCase()),
+							look = tags.contains(thisTag);
+					if(look) // if this is a tag we're looking for, wrap the token in a span for formatting and hovertext
+						html += "<span class=\"" + thisTag.replaceAll("\\$", "S") + "\" title=\"" + tagDescriptions.get(thisTag) + (real ? "" : " (not in dictionary!)") + "\">";
+					if(!real) // if the token isn't in the dictionary, wrap it in an inner span so that formatting takes precedence
 						html += "<span class=\"notreal\">";
-					if(tags.contains(thisTag)) // if this is one of the parts we're looking for, wrap it in a span
-						html += "<span class=\"" + thisTag.replaceAll("\\$", "S") + "\" title=\"" + tagDescriptions.get(thisTag) + (real ? "" : " (not in dictionary!)") + "\">" + thisToken + "</span>";
-					else
-						html += thisToken;
+					html += thisToken;
 					if(!real)
-						html += "</span>"; // close the <span>
+						html += "</span>";
+					if(look)
+						html += "</span>";
 				}
 
 				html += "</p>"; // close the <p> if necessary

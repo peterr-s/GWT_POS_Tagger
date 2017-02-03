@@ -141,7 +141,10 @@ public class TaggerUI extends Composite
 				selectedTags.add("FW");
 
 			if(INCheckBox.getValue())
+			{
 				selectedTags.add("IN");
+				selectedTags.add("TO");
+			}
 
 			if(JJCheckBox.getValue())
 			{

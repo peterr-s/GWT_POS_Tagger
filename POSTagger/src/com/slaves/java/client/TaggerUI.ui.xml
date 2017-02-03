@@ -10,22 +10,25 @@
 		<div class="main">
 		    <div ui:field="sidebar">
 		        <g:CheckBox ui:field="everything"><strong class="redBold">ALL</strong></g:CheckBox><br/>
-		        <g:CheckBox ui:field="CCCheckBox">conjunctions</g:CheckBox><br/>
-		        <g:CheckBox ui:field="CDCheckBox">cardinals</g:CheckBox><br/>
-		        <g:CheckBox ui:field="DTCheckBox">determiners</g:CheckBox><br/>
-		        <g:CheckBox ui:field="EXCheckBox">existential &quot;there&quot;</g:CheckBox><br/>
-		        <g:CheckBox ui:field="FWCheckBox">foreign words</g:CheckBox><br/>
-		        <g:CheckBox ui:field="INCheckBox">prepositions</g:CheckBox><br/>
-		        <g:CheckBox ui:field="JJCheckBox">adjectives</g:CheckBox><br/>
-		        <g:CheckBox ui:field="LSCheckBox">list markers</g:CheckBox><br/>
+		        <hr/>
 		        <g:CheckBox ui:field="NNCheckBox">nouns</g:CheckBox><br/>
-		        <g:CheckBox ui:field="POSCheckBox">poss. indicators</g:CheckBox><br/>
+		        <g:CheckBox ui:field="VBCheckBox">verbs</g:CheckBox><br/>
+		        <g:CheckBox ui:field="JJCheckBox">adjectives</g:CheckBox><br/>
 		        <g:CheckBox ui:field="RBCheckBox">adverbs</g:CheckBox><br/>
+		        <hr/>
+		        <g:CheckBox ui:field="CCCheckBox">conjunctions</g:CheckBox><br/>
+		        <g:CheckBox ui:field="DTCheckBox">determiners</g:CheckBox><br/>
+		        <g:CheckBox ui:field="INCheckBox">prepositions</g:CheckBox><br/>
+		        <g:CheckBox ui:field="POSCheckBox">poss. indicators</g:CheckBox><br/>
+		        <g:CheckBox ui:field="WHCheckBox">&quot;wh-&quot; pronouns</g:CheckBox><br/>
+		        <hr/>
+		        <g:CheckBox ui:field="CDCheckBox">cardinals</g:CheckBox><br/>
+		        <g:CheckBox ui:field="LSCheckBox">list markers</g:CheckBox><br/>
+		        <g:CheckBox ui:field="EXCheckBox">existential &quot;there&quot;</g:CheckBox><br/>
+		        <g:CheckBox ui:field="UHCheckBox">interjections</g:CheckBox><br/>
+		        <g:CheckBox ui:field="FWCheckBox">foreign words</g:CheckBox><br/>
 		        <g:CheckBox ui:field="RPCheckBox">particles</g:CheckBox><br/>
 		        <g:CheckBox ui:field="SYMCheckBox">symbols</g:CheckBox><br/>
-		        <g:CheckBox ui:field="UHCheckBox">interjections</g:CheckBox><br/>
-		        <g:CheckBox ui:field="VBCheckBox">verbs</g:CheckBox><br/>
-		        <g:CheckBox ui:field="WHCheckBox">&quot;wh-&quot; pronouns</g:CheckBox><br/>
 		    </div>
 		    <div id="textFrame">
 				<g:TextArea ui:field="text"/>
