@@ -246,7 +246,7 @@ public class TaggerUI extends Composite
 			// grab text from the text box
 			String enteredText = text.getText();
 
-			// if there's a lot, show a confirmation dialog (because of lag)
+			// if there's a lot show a confirmation dialog (because of lag)
 			if(enteredText.split("\\s+").length > 30000 && !Window.confirm("tl; dr\ndude are you sure you want to make me read all that?"))
 				return;
 
